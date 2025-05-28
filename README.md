@@ -22,3 +22,28 @@ O projeto utiliza as seguintes bibliotecas Python:
 - `requests` – usada internamente para as requisições à API
 - `heapq` – módulo da biblioteca padrão do Python utilizado para implementar fila de prioridade no algoritmo de Dijkstra
 
+## 🛠️ Como rodar
+
+### Clone o repositório:
+git clone https://github.com/erika-bs/trabalho_p2_eda.git
+
+### Abra seu repositório
+cd atividade_pe_eda
+
+### Abra o código no VsCode
+code .
+
+### Abra o Terminal do VsCode e crie o ambiente virtual
+python -m venv venv
+
+### Ative a venv
+venv\Scripts\activate
+
+### Instale as dependências
+pip install -r requirements.txt
+
+### Rode o script
+python main.py
+
+### Abra o arquivo rota.html para visualizar o mapa
+
