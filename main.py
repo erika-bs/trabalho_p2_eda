@@ -90,10 +90,14 @@ def reconstruir_caminho(caminho, destino):
 
 def desenhar_mapa(rotas, coord):
     mapa = folium.Map(location=coord["Jacarepaguá (sede)"][::-1], zoom_start=11)
+
     for nome, pos in coord.items():
         folium.Marker(pos[::-1], popup=nome).add_to(mapa)
+
     for origem, destino in rotas:
-        folium.PolyLine([coord[origem][::-1], coord[destino][::-1]], color='blue', weight=3).add_to(mapa)
+        rota = client.directions([coord[origem],coord[destino]], profile='driving-car',format='geojson')
+        folium.GeoJson(rota, name=f"{origem} - {destino}").add_to(mapa)
+
     mapa.save("rota.html")
     print("Mapa salvo como: rota.html")
 
