@@ -118,10 +118,21 @@ def desenhar_mapa(rotas, coord):
             icon=folium.Icon(icon="shopping-cart", prefix="fa", color=cor)
         ).add_to(mapa)
 
-    for i, (origem, destino) in enumerate(rotas):
+    visitados = ["Jacarepaguá (sede)"]
+
+    for origem, destino in rotas:
+        if destino not in visitados:
+            visitados.append(destino)
+
         rota = client.directions([coord[origem], coord[destino]], profile='driving-car', format='geojson')
         cor = "blue" if destino != "Jacarepaguá (sede)" else "red"
         folium.GeoJson(rota, name=f"{origem} - {destino}", style_function=lambda x, c=cor: {"color": c, "weight": 4}).add_to(mapa)
+
+    for i, nome in enumerate(visitados[1:],start=1):
+        folium.map.Marker(
+            coord[nome][::-1],
+            icon=folium.DivIcon(html=f"""<div style="font-size:14pt; color:black"><b>{i}</b></div>""")
+        ).add_to(mapa)
 
     mapa.save("rota.html")
     print("Mapa salvo como: rota.html")
