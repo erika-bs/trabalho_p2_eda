@@ -157,6 +157,11 @@ if __name__ == "__main__":
             distancia_total += distancias[loja]
             ponto_atual = loja
 
+        distancias,caminhos = dijkstra(grafo,ponto_atual)
+        rota_volta = reconstruir_caminho(caminhos,"Jacarepaguá (sede)")
+        rota_atual.extend(rota_volta)
+        distancia_total += distancias["Jacarepaguá (sede)"]
+
         if distancia_total < menor_distancia:
             menor_distancia = distancia_total
             melhor_rota = rota_atual
