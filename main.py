@@ -89,7 +89,13 @@ def reconstruir_caminho(caminho, destino):
     return rota
 
 def desenhar_mapa(rotas, coord):
-    mapa = folium.Map(location=coord["Jacarepaguá (sede)"][::-1], zoom_start=11)
+    mapa = folium.Map(location=coord["Jacarepaguá (sede)"][::-1], zoom_start=11,tiles=None)
+
+    folium.TileLayer(
+        tiles = 'OpenStreetMap',
+        name = 'Lojas',
+        control=True
+    ).add_to(mapa)
 
     folium.Marker(
         location=coord["Jacarepaguá (sede)"][::-1],
@@ -97,26 +103,42 @@ def desenhar_mapa(rotas, coord):
         icon=folium.Icon(icon="building", prefix="fa", color="orange")
     ).add_to(mapa)
 
+    grupos = {
+        "Prezunic": folium.FeatureGroup(name="Prezunic",show=True),
+        "Zona Sul": folium.FeatureGroup(name="Zona Sul",show=True),
+        "Supermarket": folium.FeatureGroup(name="Supermarket",show=True),
+        "Guanabara":folium.FeatureGroup(name="Guanabara",show=True)
+    }
+
     for nome, pos in coord.items():
         if nome == "Jacarepaguá (sede)":
             continue
 
         if "Prezunic" in nome:
             cor = "gray"
+            grupo = grupos["Prezunic"]
         elif "Zona Sul" in nome:
             cor = "red"
+            grupo = grupos["Zona Sul"]
         elif "Supermarket" in nome:
             cor = "green"
+            grupo = grupos["Supermarket"]
         elif "Guanabara" in nome:
             cor = "blue"
+            grupo = grupos["Guanabara"]
         else:
             cor = "lightgray"
+            grupo = None
 
-        folium.Marker(
-            location=pos[::-1],
-            popup=nome,
-            icon=folium.Icon(icon="shopping-cart", prefix="fa", color=cor)
-        ).add_to(mapa)
+        if grupo:
+            folium.Marker(
+                location=pos[::-1],
+                popup=nome,
+                icon=folium.Icon(icon="shopping-cart",prefix="fa",color=cor)
+            ).add_to(grupo)
+
+    for grupo in grupos.values():
+        grupo.add_to(mapa)
 
     visitados = ["Jacarepaguá (sede)"]
 
@@ -126,7 +148,7 @@ def desenhar_mapa(rotas, coord):
 
         rota = client.directions([coord[origem], coord[destino]], profile='driving-car', format='geojson')
         cor = "blue" if destino != "Jacarepaguá (sede)" else "red"
-        folium.GeoJson(rota, name=f"{origem} - {destino}", style_function=lambda x, c=cor: {"color": c, "weight": 4}).add_to(mapa)
+        folium.GeoJson(rota, name=f"{origem} - {destino}", style_function=lambda x, c=cor: {"color": c, "weight": 4},control=False).add_to(mapa)
 
     for i, nome in enumerate(visitados[1:],start=1):
         folium.map.Marker(
@@ -134,6 +156,7 @@ def desenhar_mapa(rotas, coord):
             icon=folium.DivIcon(html=f"""<div style="font-size:14pt; color:black"><b>{i}</b></div>""")
         ).add_to(mapa)
 
+    folium.LayerControl().add_to(mapa)
     mapa.save("rota.html")
     print("Mapa salvo como: rota.html")
 
