@@ -91,11 +91,35 @@ def reconstruir_caminho(caminho, destino):
 def desenhar_mapa(rotas, coord):
     mapa = folium.Map(location=coord["Jacarepaguá (sede)"][::-1], zoom_start=11)
 
+    folium.Marker(
+        location=coord["Jacarepaguá (sede)"][::-1],
+        popup="Jacarepaguá (sede)",
+        icon=folium.Icon(icon="building", prefix="fa", color="orange")
+    ).add_to(mapa)
+
     for nome, pos in coord.items():
-        folium.Marker(pos[::-1], popup=nome).add_to(mapa)
+        if nome == "Jacarepaguá (sede)":
+            continue
+
+        if "Prezunic" in nome:
+            cor = "gray"
+        elif "Zona Sul" in nome:
+            cor = "red"
+        elif "Supermarket" in nome:
+            cor = "green"
+        elif "Guanabara" in nome:
+            cor = "blue"
+        else:
+            cor = "lightgray"
+
+        folium.Marker(
+            location=pos[::-1],
+            popup=nome,
+            icon=folium.Icon(icon="shopping-cart", prefix="fa", color=cor)
+        ).add_to(mapa)
 
     for origem, destino in rotas:
-        rota = client.directions([coord[origem],coord[destino]], profile='driving-car',format='geojson')
+        rota = client.directions([coord[origem], coord[destino]], profile='driving-car', format='geojson')
         folium.GeoJson(rota, name=f"{origem} - {destino}").add_to(mapa)
 
     mapa.save("rota.html")
