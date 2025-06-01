@@ -4,49 +4,12 @@ from dotenv import load_dotenv
 import folium
 import heapq
 from itertools import permutations
+from enderecos import enderecos
 
 load_dotenv()
 API_KEY = os.getenv("ORS_API_KEY")
 client = openrouteservice.Client(key=API_KEY)
 
-enderecos = {
-    "Jacarepaguá (sede)": [-43.3856, -22.9195],
-    "Guanabara 1": [-43.4668, -22.8787], 
-    "Guanabara 2": [-43.3601, -23.0036],
-    "Guanabara 3": [-43.2530, -22.8608], 
-    "Guanabara 4": [-43.3653, -22.8809],
-    "Guanabara 5": [-43.5700, -22.8855], 
-    "Guanabara 6": [-43.2825, -22.8884],
-    "Guanabara 7": [-43.3197, -22.8382], 
-    "Guanabara 8": [-43.3063, -22.8532],
-    "Guanabara 9": [-43.4207, -22.8849], 
-    "Guanabara 10": [-43.2522, -22.9195],
-    "Prezunic 1": [-43.2525, -22.9190], 
-    "Prezunic 2": [-43.1829, -22.9507],
-    "Prezunic 3": [-43.1931, -22.9308], 
-    "Prezunic 4": [-43.2730, -22.8940],
-    "Prezunic 5": [-43.2333, -22.9320], 
-    "Prezunic 6": [-43.5555, -22.8800],
-    "Prezunic 7": [-43.4560, -23.0122], 
-    "Prezunic 8": [-43.4032, -22.9435],
-    "Prezunic 9": [-43.2097, -22.8102], 
-    "Prezunic 10": [-43.3011, -22.7859],
-    "Supermarket 1": [-43.1862, -22.9500], 
-    "Supermarket 2": [-43.1912, -22.9647],
-    "Supermarket 3": [-43.2331, -22.9335], 
-    "Supermarket 4": [-43.5706, -22.8893],
-    "Supermarket 5": [-43.3391, -22.8730], 
-    "Supermarket 6": [-43.3811, -22.8095],
-    "Supermarket 7": [-43.1860, -22.9125], 
-    "Supermarket 8": [-43.2023, -22.8980],
-    "Supermarket 9": [-43.2522, -22.9195], 
-    "Supermarket 10": [-43.2754, -22.8890],
-    "Zona Sul 1": [-43.2236, -22.9816], 
-    "Zona Sul 2": [-43.2110, -22.9853],
-    "Zona Sul 3": [-43.1910, -22.9640], 
-    "Zona Sul 4": [-43.1821, -22.9321],
-    "Zona Sul 5": [-43.1865, -22.9491]
-}
 
 def calcular_distancia(coord1, coord2):
     rota = client.directions([coord1, coord2], profile='driving-car')
