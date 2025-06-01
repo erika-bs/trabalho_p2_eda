@@ -28,7 +28,7 @@ O projeto utiliza as seguintes bibliotecas Python:
 git clone https://github.com/erika-bs/trabalho_p2_eda.git
 
 ### Abra seu repositório
-cd atividade_pe_eda
+cd atividade_p2_eda
 
 ### Abra o código no VsCode
 code .
