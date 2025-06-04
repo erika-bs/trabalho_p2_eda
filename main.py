@@ -109,7 +109,7 @@ def desenhar_mapa(rotas, coord):
         if destino not in visitados:
             visitados.append(destino)
 
-        rota = client.directions([coord[origem], coord[destino]], profile='driving-car', format='geojson')
+        rota = client.directions([coord[origem], coord[destino]], profile='driving-hgv', format='geojson')
         cor = "blue" if destino != "Jacarepaguá (sede)" else "red"
         folium.GeoJson(rota, name=f"{origem} - {destino}", style_function=lambda x, c=cor: {"color": c, "weight": 4},control=False).add_to(mapa)
 
