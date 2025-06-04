@@ -130,7 +130,7 @@ def desenhar_mapa(rotas, coord):
                                 border-shadow:0 0 3px rgba(0,0,0,0.5);">
                                 
                                 <b>{i}</b>
-                                
+                        
                                 </div>
                                 """)
         ).add_to(mapa)
@@ -146,13 +146,24 @@ if __name__ == "__main__":
         if nome != "Jacarepaguá (sede)":
             print(f" - {nome}")
 
-    lojas = input("\nDigite até 3 lojas para entrega (separadas por vírgula):\n> ").split(",")
-    lojas = [loja.strip() for loja in lojas if loja.strip() in enderecos and loja.strip() != "Jacarepaguá (sede)"]
+    entradas = input("\nDigite até 3 lojas para entrega (separadas por vírgula):\n> ").split(",")
+    lojas_input = [loja.strip() for loja in entradas]
+    invalidas = [l for l in lojas_input if l not in enderecos or l == "Jacarepaguá (sede)"]
 
-    if not lojas or len(lojas) > 3:
-        print("Entrada inválida. Escolha de 1 a 3 lojas.")
+    if invalidas:
+        print(f"\n Lojas inválidas: {','.join(invalidas)}")
+        print("Use exatamente um dos nome das lojas acima, incluindo o número da filial.")    
         exit()
 
+    if len(set(lojas_input)) != len(lojas_input):
+        print("\nVocê digitou o nome da mesma loja mais de uma vez.")
+        exit()
+
+    if len(lojas_input) < 1 or len(lojas_input) > 3:
+        print("\n Entrada inválida. Digite entre 1 e 3 lojas diferentes.")
+        exit()
+
+    lojas = lojas_input
     pontos = ["Jacarepaguá (sede)"] + lojas
     grafo = construir_grafo(pontos)
 
