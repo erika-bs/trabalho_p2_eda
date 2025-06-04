@@ -12,7 +12,7 @@ client = openrouteservice.Client(key=API_KEY)
 
 
 def calcular_distancia(coord1, coord2):
-    rota = client.directions([coord1, coord2], profile='driving-car')
+    rota = client.directions([coord1, coord2], profile='driving-hgv')
     return rota['routes'][0]['summary']['distance'] / 1000
 
 def construir_grafo(locais):
