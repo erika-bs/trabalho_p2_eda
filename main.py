@@ -116,7 +116,23 @@ def desenhar_mapa(rotas, coord):
     for i, nome in enumerate(visitados[1:],start=1):
         folium.map.Marker(
             coord[nome][::-1],
-            icon=folium.DivIcon(html=f"""<div style="font-size:14pt; color:black"><b>{i}</b></div>""")
+            icon=folium.DivIcon(html=f"""
+                                <div style="
+                                background-color:#FF5722;
+                                color:white;
+                                font-size:14pt;
+                                border-radius:50%;
+                                width:30px;
+                                height:30px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                border-shadow:0 0 3px rgba(0,0,0,0.5);">
+                                
+                                <b>{i}</b>
+                                
+                                </div>
+                                """)
         ).add_to(mapa)
 
     folium.LayerControl().add_to(mapa)
