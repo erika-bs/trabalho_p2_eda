@@ -10,7 +10,6 @@ load_dotenv()
 API_KEY = os.getenv("ORS_API_KEY")
 client = openrouteservice.Client(key=API_KEY)
 
-
 def calcular_distancia(coord1, coord2):
     rota = client.directions([coord1, coord2], profile='driving-hgv')
     return rota['routes'][0]['summary']['distance'] / 1000
@@ -108,7 +107,7 @@ def desenhar_mapa(rotas, coord):
     for origem, destino in rotas:
         if destino not in visitados:
             visitados.append(destino)
-
+            
         rota = client.directions([coord[origem], coord[destino]], profile='driving-hgv', format='geojson')
         cor = "blue" if destino != "Jacarepaguá (sede)" else "red"
         folium.GeoJson(rota, name=f"{origem} - {destino}", style_function=lambda x, c=cor: {"color": c, "weight": 4},control=False).add_to(mapa)
@@ -139,7 +138,6 @@ def desenhar_mapa(rotas, coord):
     mapa.save("rota.html")
     print("Mapa salvo como: rota.html")
 
-
 if __name__ == "__main__":
     print("\nLojas disponíveis:")
     for nome in enderecos:
@@ -165,8 +163,8 @@ if __name__ == "__main__":
 
     lojas = lojas_input
     pontos = ["Jacarepaguá (sede)"] + lojas
+    print("\nConstruindo grafo e obtendo distâncias via OpenRouteService...")
     grafo = construir_grafo(pontos)
-
     melhor_rota = []
     menor_distancia = float('inf')
 
