@@ -19,8 +19,9 @@ O projeto utiliza as seguintes bibliotecas Python:
 - `openrouteservice` – para calcular a distância real entre os pontos usando a API do ORS
 - `folium` – para gerar um mapa com a rota traçada
 - `python-dotenv` – para carregar a chave da API do `.env`
-- `requests` – usada internamente para as requisições à API
+- `os` – Módulo padrão utilizado para acessar variáveis de ambiente, como a chave da API
 - `heapq` – módulo da biblioteca padrão do Python utilizado para implementar fila de prioridade no algoritmo de Dijkstra
+- `itertools` – Módulo padrão usado para gerar todas as permutações possíveis de visitas às lojas
 
 ## 🛠️ Como rodar
 
@@ -46,4 +47,3 @@ pip install -r requirements.txt
 python main.py
 
 ### Abra o arquivo rota.html para visualizar o mapa
-
